@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Game</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .quiz-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 90%;
+        max-width: 500px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      .question {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+
+      .options {
+        list-style: none;
+        padding: 0;
+      }
+
+      .options li {
+        margin: 10px 0;
+      }
+
+      button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background: #0056b3;
+      }
+
+      .result {
+        font-size: 20px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="quiz-container">
+      <h1>Quiz Game</h1>
+      <div id="quiz">
+        <p class="question">Loading question...</p>
+        <ul class="options"></ul>
+        <button id="next-btn" style="display: none">Next</button>
+      </div>
+      <p class="result" style="display: none"></p>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "Ngày tháng năm sinh của tôiôi ?",
+          options: ["30-06-2006", "30-07-2007", "30-07-2006", "07-07-2006"],
+          answer: "30-07-2006",
+        },
+        {
+          question: "Tôi cao mét bao nhiêu?",
+          options: ["159cm", "160cm", "165cm", "164cm"],
+          answer: "164cm",
+        },
+        {
+          question: "Nhật nó thich chơi cái gì ?",
+          options: ["Bóng đá", "Thể thao", "đá banh", "đá bóng"],
+          answer: "Thể thao",
+        },
+        {
+          question: "Nhật nó thích nuôi con gì?",
+          options: ["Mèo", "Chó", "Cả 2 con", "Thích cả 2 mà kh có tiền:))"],
+          answer: "Thích cả 2 mà kh có tiền:))",
+        },
+        {
+          question: "Tên ở nhà của Nhật là gì?",
+          options: ["Tôm", "Na", "Ni", "Nhật"],
+          answer: "Na",
+        },
+        {
+          question: "Nhật có đẹp zaii không:))",
+          options: ["Có", "Sure", "Yes", "Cả 3 đều đúng"],
+          answer: "Cả 3 đều đúng",
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+
+      const questionElement = document.querySelector(".question");
+      const optionsElement = document.querySelector(".options");
+      const nextButton = document.getElementById("next-btn");
+      const resultElement = document.querySelector(".result");
+
+      function loadQuestion() {
+        const q = questions[currentQuestion];
+        questionElement.textContent = q.question;
+        optionsElement.innerHTML = "";
+        q.options.forEach((option, index) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<button onclick="checkAnswer('${option}')">${option}</button>`;
+          optionsElement.appendChild(li);
+        });
+      }
+
+      function checkAnswer(selectedOption) {
+        const correctAnswer = questions[currentQuestion].answer;
+        if (selectedOption === correctAnswer) {
+          score++;
+        }
+        currentQuestion++;
+        if (currentQuestion < questions.length) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        questionElement.style.display = "none";
+        optionsElement.style.display = "none";
+        nextButton.style.display = "none";
+        resultElement.style.display = "block";
+        resultElement.textContent = `Bạn đã trả lời đúng ${score}/${questions.length} câu hỏi.`;
+      }
+
+      loadQuestion();
+    </script>
+  </body>
+</html>
